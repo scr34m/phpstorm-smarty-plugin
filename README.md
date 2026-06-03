@@ -8,4 +8,9 @@ Template file autocomplete and Ctrl+Click navigation helper
 ## Build
 - ``./gradlew buildPlugin``
 - ``ls -la build/distributions/``
-- You should see something like route-navigator-1.0.0.zip
+- You should see something like smarty-1.0.0.zip
+
+## Install
+- Open phpstorm
+- Settings / Plugins / Install from Disk and select zip file.
+- or [use latest release build](https://github.com/scr34m/phpstorm-smarty-plugin/releases/latest)
