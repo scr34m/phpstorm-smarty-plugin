@@ -1,0 +1,38 @@
+<idea-plugin>
+    <id>hu.deeb.smarty</id>
+    <name>Smarty</name>
+    <version>1.0</version>
+    <vendor email="info@deeb.hu" url="https://deeb.hu">Deeb</vendor>
+
+    <description><![CDATA[
+      <h1>Smarty plugin</h1>
+      <p>Template file autocomplete and Ctrl+Click navigation helper</p>
+    ]]></description>
+
+    <change-notes><![CDATA[
+        <h3>1.0.0</h3>
+        <ul>
+            <li>Initial release</li>
+            <li>Autocomplete in include function</li>
+            <li>Navigation to template on Ctrl+Click</li>
+        </ul>
+    ]]></change-notes>
+
+    <depends>com.jetbrains.php</depends>
+    <depends>com.intellij.modules.platform</depends>
+
+    <idea-version since-build="251" until-build="253.*"/>
+
+    <extensions defaultExtensionNs="com.jetbrains.php">
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <psi.referenceContributor implementation="hu.deeb.smarty.reference.FileReferenceContributor"/>
+        <completion.contributor implementationClass="hu.deeb.smarty.completion.FileCompletionProvider"/>
+        <projectService serviceImplementation="hu.deeb.smarty.settings.SmartySettings"/>
+        <projectConfigurable instance="hu.deeb.smarty.settings.SmartySettingsConfigurable" displayName="Smarty"/>
+    </extensions>
+
+    <actions>
+    </actions>
+</idea-plugin>
