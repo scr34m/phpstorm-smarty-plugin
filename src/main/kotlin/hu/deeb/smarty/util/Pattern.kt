@@ -14,4 +14,10 @@ object Pattern {
                     .withText(PlatformPatterns.string().contains("file="))
             )
         )
+
+    val functionPattern: PsiElementPattern.Capture<PsiElement?>
+        get() = PlatformPatterns.psiElement(SmartyTokenTypes.IDENTIFIER).withParent(
+            PlatformPatterns.psiElement(SmartyCompositeElementTypes.FUNCTION_CALL)
+        )
+
 }

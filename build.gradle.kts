@@ -45,6 +45,11 @@ intellijPlatform {
         }
 
         changeNotes = """
+            <h3>1.0.2</h3>
+            <ul>
+                <li>Navigation to function as well</li>
+            </ul>
+
             <h3>1.0.1</h3>
             <ul>
                 <li>Ctrl+Click navigation fixed</li>

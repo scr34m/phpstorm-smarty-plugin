@@ -1,5 +1,10 @@
 # Phpstorm plugin smarty helper
-Template file autocomplete and Ctrl+Click navigation helper
+Template file autocomplete and Ctrl+Click navigation helper to a template or even a function definition.
+
+```
+<{extends file="frontend/register/index.tpl"}>
+<{function_to_call('arg', [1, 'test'])}>
+```
 
 ## Support
 - Runtime 27.0.7.
