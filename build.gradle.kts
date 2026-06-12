@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "deeb.hu"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -45,6 +45,11 @@ intellijPlatform {
         }
 
         changeNotes = """
+            <h3>1.0.1</h3>
+            <ul>
+                <li>Ctrl+Click navigation fixed</li>
+            </ul>
+
             <h3>1.0.0</h3>
             <ul>
                 <li>Initial release</li>

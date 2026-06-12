@@ -2,28 +2,34 @@ package hu.deeb.smarty.settings
 
 import com.intellij.openapi.components.*
 import com.intellij.openapi.project.Project
-import com.intellij.util.xmlb.XmlSerializerUtil
 
 @State(
     name = "SmartySettings",
     storages = [Storage("smarty.xml")]
 )
 @Service(Service.Level.PROJECT)
-class SmartySettings : PersistentStateComponent<SmartySettings> {
+class SmartySettings : PersistentStateComponent<SmartySettings.State> {
 
-    var templatePaths: MutableList<String> = mutableListOf(
-        "/templates"
+    data class State(
+        var templatePaths: MutableList<String> = mutableListOf()
     )
 
-    override fun getState(): SmartySettings = this
+    private var state = State()
 
-    override fun loadState(state: SmartySettings) {
-        XmlSerializerUtil.copyBean(state, this)
+    var templatePaths: MutableList<String>
+        get() = state.templatePaths
+        set(value) {
+            state.templatePaths = value
+        }
+
+    override fun getState(): State = state
+
+    override fun loadState(state: State) {
+        this.state = state
     }
 
     companion object {
-        fun getInstance(project: Project): SmartySettings {
-            return project.service()
-        }
+        fun getInstance(project: Project): SmartySettings =
+            project.service()
     }
 }

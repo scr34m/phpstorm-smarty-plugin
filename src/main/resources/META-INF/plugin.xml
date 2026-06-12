@@ -10,6 +10,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <h3>1.0.1</h3>
+        <ul>
+            <li>Ctrl+Click navigation fixed</li>
+        </ul>
+
         <h3>1.0.0</h3>
         <ul>
             <li>Initial release</li>
@@ -23,12 +28,11 @@
 
     <idea-version since-build="251" until-build="253.*"/>
 
-    <extensions defaultExtensionNs="com.jetbrains.php">
-    </extensions>
-
     <extensions defaultExtensionNs="com.intellij">
-        <psi.referenceContributor implementation="hu.deeb.smarty.reference.FileReferenceContributor"/>
-        <completion.contributor implementationClass="hu.deeb.smarty.completion.FileCompletionProvider"/>
+        <gotoDeclarationHandler implementationClass="hu.deeb.smarty.navigation.SmartyFileGoToDeclarationHandler"/>
+
+        <completion.contributor language="Smarty" implementationClass="hu.deeb.smarty.completion.FileCompletionProvider"/>
+
         <projectService serviceImplementation="hu.deeb.smarty.settings.SmartySettings"/>
         <projectConfigurable instance="hu.deeb.smarty.settings.SmartySettingsConfigurable" displayName="Smarty"/>
     </extensions>

@@ -5,7 +5,6 @@ import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.project.Project
 import com.intellij.util.ProcessingContext
-import com.jetbrains.smarty.lang.SmartyTokenTypes
 import hu.deeb.smarty.util.Pattern
 import hu.deeb.smarty.util.TemplateUtil
 
@@ -18,27 +17,20 @@ class FileCompletionProvider : CompletionContributor() {
             object : CompletionProvider<CompletionParameters>() {
 
                 override fun addCompletions(
-                    parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
                 ) {
-
                     val position = parameters.position
-
-                    var dir = ""
-
-                    val node = position.node
-                    if (node?.elementType == SmartyTokenTypes.STRING_LITERAL) {
-
-                        val text = position.text
-                        val i = text.lastIndexOf("/")
-
-                        if (i > 0) {
-                            dir = text.substring(0, i + 1)
-                        }
+                    val currentFile = position.containingFile.originalFile.virtualFile ?: return
+                    val templateDir = TemplateUtil.getTemplateDirectory(position.project, currentFile.path).trimEnd('/')
+                    val includePathBeforeCaret = getIncludePathBeforeCaret(parameters)
+                    val dir = getDirectoryPart(includePathBeforeCaret)
+                    var fullDir = templateDir
+                    if (!dir.isEmpty()) {
+                        fullDir = "${templateDir.trimEnd('/')}/${dir.trimStart('/')}"
                     }
 
-                    val filePath = position.containingFile.originalFile.virtualFile.path
-                    val templateDir = TemplateUtil.getTemplateDirectory(position.project, filePath)
-                    val fullDir = templateDir + dir
                     result.addAllElements(
                         getTemplateCompletion(position.project, fullDir)
                     )
@@ -48,13 +40,37 @@ class FileCompletionProvider : CompletionContributor() {
     }
 
     companion object {
-        fun getTemplateCompletion(project: Project, dir: String): List<LookupElement> {
 
+        private fun getIncludePathBeforeCaret(parameters: CompletionParameters): String {
+            val document = parameters.editor.document
+            val offset = parameters.offset.coerceAtMost(document.textLength)
+            val textBeforeCaret = document.text.substring(0, offset)
+            val doubleQuoteIndex = textBeforeCaret.lastIndexOf('"')
+            val singleQuoteIndex = textBeforeCaret.lastIndexOf('\'')
+            val quoteIndex = maxOf(doubleQuoteIndex, singleQuoteIndex)
+            if (quoteIndex < 0) {
+                return ""
+            }
+            return textBeforeCaret.substring(quoteIndex + 1).replace("\\", "/")
+        }
+
+        private fun getDirectoryPart(path: String): String {
+            val slashIndex = path.lastIndexOf('/')
+            if (slashIndex >= 0) {
+                return path.substring(0, slashIndex + 1)
+            } else {
+                return ""
+            }
+        }
+
+        fun getTemplateCompletion(
+            project: Project,
+            dir: String
+        ): List<LookupElement> {
             val lookupElements = mutableListOf<LookupElement>()
             val uniqueList = mutableSetOf<String>()
 
             TemplateUtil.collectFiles(project, dir) { _, fileName ->
-
                 if (uniqueList.add(fileName)) {
                     lookupElements.add(
                         LookupElementBuilder.create(fileName)
