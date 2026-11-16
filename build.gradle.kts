@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "deeb.hu"
-version = "1.0.2"
+version = "1.0.3"
 
 repositories {
     mavenCentral()
@@ -41,10 +41,15 @@ intellijPlatform {
 
         ideaVersion {
             sinceBuild = "251"
-            untilBuild = "253.*"
+            untilBuild = provider { null }
         }
 
         changeNotes = """
+            <h3>1.0.3</h3>
+            <ul>
+                <li>Compatibility with PhpStorm 2026.x (separate Smarty plugin)</li>
+            </ul>
+
             <h3>1.0.2</h3>
             <ul>
                 <li>Navigation to function as well</li>

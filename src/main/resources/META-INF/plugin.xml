@@ -10,6 +10,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <h3>1.0.3</h3>
+        <ul>
+            <li>Compatibility with PhpStorm 2026.x (separate Smarty plugin)</li>
+        </ul>
+
         <h3>1.0.2</h3>
         <ul>
             <li>Navigation to function as well</li>
@@ -30,8 +35,10 @@
 
     <depends>com.jetbrains.php</depends>
     <depends>com.intellij.modules.platform</depends>
+    <!-- Smarty is a separate bundled plugin since 2026.2 (262), before that it was part of the PHP plugin -->
+    <depends optional="true" config-file="smarty-optional.xml">com.jetbrains.smarty</depends>
 
-    <idea-version since-build="251" until-build="253.*"/>
+    <idea-version since-build="251"/>
 
     <extensions defaultExtensionNs="com.intellij">
         <gotoDeclarationHandler implementationClass="hu.deeb.smarty.navigation.SmartyFileGoToDeclarationHandler"/>
